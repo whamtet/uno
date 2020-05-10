@@ -5,10 +5,15 @@
     [uno.state :as state]))
 
 (def colors ["red" "green" "blue" "khaki"])
+(def cards
+  (concat
+    (range 10)
+    (range 1 10)
+    ["S" "S" "R" "R" "P2" "P4"]))
 (def queue-size 10)
 
 (let [pool (for [color colors
-                 number (range 1 14)]
+                 number cards]
              (kz color number))
       card (rand-nth pool)]
   (state/set-game-state
