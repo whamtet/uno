@@ -6,8 +6,7 @@
     `(do
        (defn ~setter-name [x#]
          (reset! ~atom x#))
-       (defn ~getter-name [x#]
-         (reset! ~atom x#)))))
+       (defn ~getter-name [] @~atom))))
 
 (defmacro kz [& syms]
   (zipmap (map keyword syms) syms))

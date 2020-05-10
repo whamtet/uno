@@ -14,6 +14,9 @@
   (replace-with
     "content"
     (crate/html
-      (html/card
-        {:color "red"
-         :number 3}))))
+      (html/screen
+        {:stack
+         [{:color "red"
+           :number 3}]}
+        [{:color "red"
+          :number 4}]))))

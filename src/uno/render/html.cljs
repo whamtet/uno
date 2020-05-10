@@ -12,3 +12,16 @@
                  justify-content: center;
                  align-items: center;" color)}
    number])
+
+(defn hand [cards]
+  [:div (map card cards)])
+
+(defn table [stack]
+  (when-let [head (peek stack)]
+    [:div {:style "display: flex; justify-content: center;"}
+     (card head)]))
+
+(defn screen [{:keys [stack]} cards]
+  [:div
+   (table stack)
+   (hand cards)])
