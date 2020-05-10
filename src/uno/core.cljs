@@ -8,20 +8,16 @@
 
 (enable-console-print!)
 
-(defn prompt [s]
-  (loop [result nil]
-    (or result (recur (js/prompt s)))))
-
 (defn new-game []
   (state/new-game!)
   (model/pickup-many! 7)
   (render/render-html))
 
 (defn main []
-  (let [username (prompt "Tên của bạn")]
-    (msg/set-peer! username))
-  (if-let [existing-game (js/prompt "Kết với bạn nào?")]
-    (msg/request-state existing-game)
-    (new-game)))
+  (when-let [username (js/prompt "Tên của bạn")]
+    (msg/set-peer! username)
+    (if-let [existing-game (js/prompt "Kết với bạn nào?")]
+      (msg/request-state existing-game)
+      (new-game))))
 
 (main)

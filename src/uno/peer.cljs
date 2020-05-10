@@ -1,4 +1,6 @@
-(ns uno.peer)
+(ns uno.peer
+  (:require
+    [cljs.reader :refer [read-string]]))
 
 (set! *warn-on-infer* true)
 
@@ -13,14 +15,14 @@
 (defn- listen [^js/peer peer handler]
   (.on peer "connection"
        (fn [^js/conn conn]
-         (.on conn "data" #(->> % js->clj (handler (peer-id conn)))))))
+         (.on conn "data" #(->> % read-string (handler (peer-id conn)))))))
 
 (defn set-peer! [id handler]
   (reset! peer (js/Peer. (salt-id id) #js {:debug 1}))
   (listen @peer handler))
 
 (defn send-to-connection [^js/conn conn content]
-  (.send conn (clj->js content)))
+  (.send conn (pr-str content)))
 
 (defn send-to-peer [id content]
   (let [id (salt-id id)
