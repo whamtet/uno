@@ -1,5 +1,6 @@
 (ns uno.core
   (:require
+    uno.event
     [uno.render :as render]
     [uno.state :as state]
     [uno.msg :as msg]
@@ -11,17 +12,16 @@
   (loop [result nil]
     (or result (recur (js/prompt s)))))
 
-(defn prompt-or-deny [s1 s2]
-  (if (js/confirm s1)
-    nil
-    (or (js/prompt s2) (recur s1 s2))))
+(defn new-game []
+  (state/new-game!)
+  (model/pickup-many! 7)
+  (render/render-html))
 
 (defn main []
-  (let [username "Matt" #_(prompt "Tên của bạn")]
-    (state/set-username username)
+  (let [username (prompt "Tên của bạn")]
     (msg/set-peer! username))
-  (if-let [existing-game nil #_(prompt-or-deny "Bắt đàu trò chơi mới?" "Kết với bạn nào?")]
-    (println "connect with" existing-game)
-    (render/render-html)))
+  (if-let [existing-game (js/prompt "Kết với bạn nào?")]
+    (msg/request-state existing-game)
+    (new-game)))
 
 (main)

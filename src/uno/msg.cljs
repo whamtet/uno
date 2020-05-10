@@ -1,17 +1,14 @@
-(ns uno.msg)
+(ns uno.msg
+  (:require
+    [uno.peer :as peer]
+    [uno.state :as state]))
 
-(set! *warn-on-infer* true)
+(defn handle-incoming [peer [command data]]
+  (case command
+    (prn peer command data)))
 
-(def peer (atom nil))
+(defn set-peer! [username]
+  (peer/set-peer! username handle-incoming))
 
-(defn- salt-id [id]
-  (str id "-uno"))
-
-(defn- listen [^js/peer peer]
-  (.on peer "connection"
-       (fn [^js/conn conn]
-         (.on conn "data" prn))))
-
-(defn set-peer! [id]
-  (reset! peer (js/Peer. (salt-id id) #js {:debug 1}))
-  (listen @peer))
+(defn request-state [other]
+  (peer/send-to-peer other [:request-state]))

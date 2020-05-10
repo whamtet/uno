@@ -1,7 +1,7 @@
 (ns uno.render
   (:require
     [uno.render.html :as html]
-    [uno.model :as model]
+    [uno.state :as state]
     [crate.core :as crate]))
 
 (defn id [x]
@@ -15,8 +15,5 @@
     "content"
     (crate/html
       (html/screen
-        {:stack
-         [{:color "red"
-           :number 3}]}
-        [{:color "red"
-          :number 4}]))))
+        (state/get-game-state)
+        (state/get-hand)))))

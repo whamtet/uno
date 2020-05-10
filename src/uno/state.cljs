@@ -1,10 +1,12 @@
 (ns uno.state
   (:require-macros
     [uno.util :as util]
-    [clojure.set :as set]))
+    clojure.set))
 
-(def ^:private username (atom nil))
-(util/setget username)
+(def ^:private new-game (atom false))
+(defn new-game! []
+  (reset! new-game true))
+(defn new-game? [] @new-game)
 
 (def ^:private game-state (atom nil))
 (util/setget game-state)
@@ -18,7 +20,7 @@
   (swap! hand disj item))
 
 (defn union-hand! [items]
-  (swap! hand set/union items))
+  (swap! hand clojure.set/union items))
 
 (defn- format-card [{:keys [color number]}]
   (if (< number 10)

@@ -4,7 +4,7 @@
   (:require
     [uno.state :as state]))
 
-(def colors ["red" "green" "blue" "yellow"])
+(def colors ["red" "green" "blue" "khaki"])
 (def queue-size 10)
 
 (let [pool (for [color colors
