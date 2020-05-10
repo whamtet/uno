@@ -1,3 +1,5 @@
+dist
+uno.js
 pom.xml
 *jar
 /lib/
@@ -9,3 +11,6 @@ pom.xml
 .lein-repl-history
 .lein-plugins/
 .repl*
+
+# Local Netlify folder
+.netlify

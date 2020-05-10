@@ -14,10 +14,11 @@
   (render/render-html))
 
 (defn main []
-  (when-let [username (js/prompt "Tên của bạn")]
-    (msg/set-peer! username)
-    (if-let [existing-game (js/prompt "Kết với bạn nào?")]
-      (msg/request-state existing-game)
-      (new-game))))
+  (let [leader (js/confirm "Làm chủ không?")]
+    (when-let [username (js/prompt "Chủ tên gì?")]
+      (msg/set-peer! (when leader username))
+      (if leader
+        (new-game)
+        (msg/request-state username)))))
 
 (main)

@@ -4,8 +4,8 @@
 
 (let [start (System/nanoTime)]
   (b/build "src"
-    {:output-to "../uno.js"
-     :output-dir "../uno_release"
+    {:output-to "uno.js"
+     :output-dir "out"
      :optimizations :advanced
      :infer-externs true
      :verbose true})

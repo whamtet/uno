@@ -2,5 +2,5 @@
 
 (b/watch "src"
   {:main 'uno.core
-   :output-to "out/uno.js"
+   :output-to "uno.js"
    :output-dir "out"})
