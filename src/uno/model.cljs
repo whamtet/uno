@@ -28,9 +28,9 @@
        :stack stack})
     (state/conj-hand! card)))
 
-(defn pickup-many! [i]
+(defn pickup-many! []
   (let [{:keys [pool stack]} (state/get-game-state)
-        cards (->> pool shuffle (take i) set)]
+        cards (->> pool shuffle (take 7) set)]
     (state/set-game-state
       {:pool (remove cards pool)
        :stack stack})

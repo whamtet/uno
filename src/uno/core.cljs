@@ -9,8 +9,7 @@
 (enable-console-print!)
 
 (defn new-game []
-  (state/new-game!)
-  (model/pickup-many! 7)
+  (model/pickup-many!)
   (render/render-html))
 
 (defn main []

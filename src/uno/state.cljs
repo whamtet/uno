@@ -1,12 +1,8 @@
 (ns uno.state
   (:require-macros
-    [uno.util :as util]
+    [uno.util :as util])
+  (:require
     clojure.set))
-
-(def ^:private new-game (atom false))
-(defn new-game! []
-  (reset! new-game true))
-(defn new-game? [] @new-game)
 
 (def ^:private game-state (atom nil))
 (util/setget game-state)

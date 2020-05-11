@@ -6,7 +6,7 @@
     [uno.model :as model]))
 
 (defn ^:export pickup []
-  (model/pickup!)
+  ((if (empty? (state/get-hand)) model/pickup-many! model/pickup!))
   (msg/notify-peers)
   (render/render-html))
 

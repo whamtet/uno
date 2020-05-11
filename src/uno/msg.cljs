@@ -18,7 +18,7 @@
     (do
       (reset! parent peer)
       (state/set-game-state data)
-      (model/pickup-many! 7)
+      (model/pickup-many!)
       (peer/send-to-peer peer [:receive-state (state/get-game-state)])
       (render/render-html))
     :receive-state
@@ -31,7 +31,7 @@
     (prn peer command data)))
 
 (defn notify-peers []
-  (doseq [peer (conj @children @parent)]
+  (doseq [peer (conj @children @parent) :when peer]
     (peer/send-to-peer peer [:receive-state (state/get-game-state)])))
 
 (defn set-peer! [username]
