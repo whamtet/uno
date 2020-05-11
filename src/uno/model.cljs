@@ -46,10 +46,8 @@
 
 (defn put-down! [card]
   (let [{:keys [pool stack]} (state/get-game-state)
-        stack-full? (= queue-size (count stack))]
+        [to-discard stack] (split-at (- (count stack) queue-size) stack)]
     (state/set-game-state
-      {:pool (if stack-full? (conj pool (first stack)) pool)
-       :stack (conj
-                (if stack-full? (vec (rest stack)) stack)
-                card)})
+      {:pool (concat pool to-discard)
+       :stack (vec stack)})
     (state/disj-hand! card)))
