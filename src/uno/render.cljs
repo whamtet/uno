@@ -15,5 +15,6 @@
     "content"
     (crate/html
       (html/screen
+        (state/get-username)
         (state/get-game-state)
         (state/get-hand)))))

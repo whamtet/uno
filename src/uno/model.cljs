@@ -7,9 +7,8 @@
 (def colors ["red" "green" "blue" "khaki"])
 (def cards
   (concat
-    (range 10)
-    (range 1 10)
-    ["S" "S" "R" "R" "P2" "P4"]))
+    (range 1 20)
+    ["S" "S2" "R" "R2" "P2" "P4"]))
 (def queue-size 10)
 
 (let [pool (for [color colors
@@ -46,8 +45,18 @@
 
 (defn put-down! [card]
   (let [{:keys [pool stack]} (state/get-game-state)
+        stack (conj stack card)
         [to-discard stack] (split-at (- (count stack) queue-size) stack)]
     (state/set-game-state
       {:pool (concat pool to-discard)
        :stack (vec stack)})
     (state/disj-hand! card)))
+
+(defn restart! []
+  (let [{:keys [pool stack]} (state/get-game-state)
+        hand (state/get-hand)]
+    (state/set-game-state
+      {:pool (concat pool hand)
+       :stack stack})
+    (state/empty-hand!)
+    (pickup-many!)))

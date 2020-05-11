@@ -4,6 +4,9 @@
   (:require
     clojure.set))
 
+(def ^:private username (atom nil))
+(util/setget username)
+
 (def ^:private game-state (atom nil))
 (util/setget game-state)
 
@@ -17,6 +20,9 @@
 
 (defn union-hand! [items]
   (swap! hand clojure.set/union items))
+
+(defn empty-hand! []
+  (reset! hand #{}))
 
 (defn get-hand []
   (sort-by #(str (:color %) (:number %)) @hand))

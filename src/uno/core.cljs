@@ -8,16 +8,18 @@
 
 (enable-console-print!)
 
-(defn new-game []
+(defn new-game [username]
+  (state/set-username username)
   (model/pickup-many!)
   (render/render-html))
 
 (defn main []
-  (let [leader (js/confirm "Làm chủ không?")]
-    (when-let [username (js/prompt "Chủ tên gì?")]
-      (msg/set-peer! (when leader username))
+  (let [leader (js/confirm "Làm chủ không?")
+        prompt-msg (if leader "Chủ tên gì?" "Kết với chủ khác tên gì?")]
+    (when-let [username (js/prompt prompt-msg)]
+      (msg/set-peer! (when leader (.toLowerCase username)))
       (if leader
-        (new-game)
-        (msg/request-state username)))))
+        (new-game username)
+        (msg/request-state (.toLowerCase username))))))
 
 (main)
