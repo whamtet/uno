@@ -34,7 +34,7 @@
   [:div {:style "display: flex; justify-content: center;"}
    (map-indexed card-table (reverse (take-last 3 stack)))])
 
-(defn screen [username {:keys [stack]} cards]
+(defn screen [username {:keys [stack hands]} cards]
   [:div#content
    (when username
      [:div username])
@@ -48,4 +48,7 @@
    [:div
     [:button {:type "button"
               :onclick js/uno.event.restart}
-     "Restart"]]])
+     "Restart"]]
+   [:br]
+   (for [[username hand-size] hands]
+     [:div username " 🤲 " hand-size])])

@@ -13,13 +13,13 @@
     :request-state
     (do
       (swap! children conj peer)
-      (peer/send-to-peer peer [:new-game (state/get-game-state)]))
+      (peer/send-to-peer peer [:new-game (state/get-game-state-msg)]))
     :new-game
     (do
       (reset! parent peer)
       (state/set-game-state data)
       (model/pickup-many!)
-      (peer/send-to-peer peer [:receive-state (state/get-game-state)])
+      (peer/send-to-peer peer [:receive-state (state/get-game-state-msg)])
       (render/render-html))
     :receive-state
     (do
@@ -32,7 +32,7 @@
 
 (defn notify-peers []
   (doseq [peer (conj @children @parent) :when peer]
-    (peer/send-to-peer peer [:receive-state (state/get-game-state)])))
+    (peer/send-to-peer peer [:receive-state (state/get-game-state-msg)])))
 
 (defn set-peer! [username]
   (peer/set-peer! username handle-incoming))
