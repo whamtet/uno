@@ -19,14 +19,14 @@
 
 (defn card [{:keys [color number] :as card}]
   [:div {:onclick #(js/uno.event.put-down card)
-         :style (format "color: %s;" color)}
+         :style (format "color: %s;" (if (= "P4" number) "black" color))}
    (disp-number number)])
 
 (defn hand [cards]
   [:div.flex-container (map card cards)])
 
 (defn card-table [i {:keys [color number]}]
-  [:div {:style (card-style i color)
+  [:div {:style (card-style i (if (= "P4" number) "black" color))
          :onclick js/uno.event.pickup-table}
    (disp-number number)])
 
