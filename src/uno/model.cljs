@@ -54,6 +54,17 @@
 
 (defn restart! []
   (let [{:keys [pool stack]} (state/get-game-state)
+        hand (state/get-hand)
+        pool (distinct (concat pool stack hand))
+        new-start (rand-nth pool)]
+    (state/set-game-state
+      {:pool (remove #(= new-start %) pool)
+       :stack [new-start]})
+    (state/empty-hand!)
+    (pickup-many!)))
+
+(defn restart-peer! []
+  (let [{:keys [pool stack]} (state/get-game-state)
         hand (state/get-hand)]
     (state/set-game-state
       {:pool (concat pool hand)

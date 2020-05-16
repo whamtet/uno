@@ -24,5 +24,5 @@
 (defn ^:export restart []
   (when (js/confirm "Restart?")
     (model/restart!)
-    (msg/notify-peers)
+    (msg/notify-peers :restart)
     (render/render-html)))

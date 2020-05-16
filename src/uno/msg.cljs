@@ -8,6 +8,12 @@
 (def ^:private parent (atom nil))
 (def ^:private children (atom #{}))
 
+(defn notify-peers
+  ([] (notify-peers :receive-state))
+  ([command]
+   (doseq [peer (conj @children @parent) :when peer]
+     (peer/send-to-peer peer [command (state/get-game-state-msg)]))))
+
 (defn- handle-incoming [peer [command data]]
   (case command
     :request-state
@@ -28,11 +34,13 @@
       (doseq [child @children :when (not= child peer)]
         (peer/send-to-peer child [:request-state data]))
       (render/render-html))
+    :restart
+    (do
+      (state/set-game-state data)
+      (model/restart-peer!)
+      (notify-peers)
+      (render/render-html))
     (prn peer command data)))
-
-(defn notify-peers []
-  (doseq [peer (conj @children @parent) :when peer]
-    (peer/send-to-peer peer [:receive-state (state/get-game-state-msg)])))
 
 (defn set-peer! [username]
   (peer/set-peer! username handle-incoming))
