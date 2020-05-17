@@ -8,6 +8,7 @@
 (def connections (atom {}))
 
 (defn- listen [^js/peer peer handler]
+  (set! js/document.body.onunload #(.destroy peer))
   (.on peer "connection"
        (fn [^js/conn conn]
          (.on conn "data" #(->> % read-string (handler (.-peer conn)))))))
